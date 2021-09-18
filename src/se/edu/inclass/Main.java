@@ -6,6 +6,7 @@ import se.edu.inclass.task.Task;
 import se.edu.inclass.task.TaskNameComparator;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -15,6 +16,21 @@ public class Main {
     public static void main(String[] args) {
         DataManager dm = new DataManager("./data/data.txt");
         ArrayList<Task> tasksData = dm.loadData();
+        
+        // Unsorted...
+        System.out.println("Printing deadlines");
+        printDeadlines(tasksData);
+        System.out.println("");
+
+        // Sorted...
+        System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
+        printDeadlineUsingStream(tasksData);
+        System.out.println("");
+
+        // Filter Task By String -> Will only return 2 items...
+        ArrayList<Task> filteredList = filterTaskByString(tasksData, "11");
+        printData(filteredList);
+        System.out.println("");
 
         // System.out.println("Printing deadlines");
         // printDeadlines(tasksData);
@@ -24,9 +40,10 @@ public class Main {
 
         // printDataWithStreams(tasksData); // Using streams to print the data...
 
-        printDeadlineUsingStream(tasksData);
-        System.out.println("Total number of deadlines (using stream): " +
-                countDeadlineUsingStream(tasksData));
+        //-------- This thing is from lambdas ------------//
+        // printDeadlineUsingStream(tasksData);
+        // System.out.println("Total number of deadlines (using stream): " +
+                // countDeadlineUsingStream(tasksData));
     }
 
     private static int countDeadlines(ArrayList<Task> tasksData) {
@@ -78,12 +95,28 @@ public class Main {
     }
 
     public static void printDeadlineUsingStream(ArrayList<Task> tasks) {
-        System.out.println("Printing deadlines using streams");
-        tasks.parallelStream() // instead of Stream() to use multi-threading.
+        tasks.stream()
+                .filter((t) -> t instanceof Deadline)
+                // Basically you sort first before you print it out...
+                .sorted((a, b) -> a.getDescription().toLowerCase(Locale.ROOT).compareTo(b.getDescription().toLowerCase())) // Comparator thingy
+                .forEach(System.out::println);
+    }
+
+    public static  ArrayList<Task> filterTaskByString(ArrayList<Task> tasks, String filterString) {
+        ArrayList<Task> filteredList =(ArrayList<Task>) tasks.stream() // Must typecast since it returns an array instead.
+                            .filter((t) -> t.getDescription().contains(filterString))
+                            .collect(Collectors.toList());
+
+        return filteredList;
+    // }
+    // test1
+        // System.out.println("Printing deadlines using streams");
+        // tasks.parallelStream() // instead of Stream() to use multi-threading.
                 // You have the parameter which you are checking if
                 // it is instance of the deadline. Only if it is then
                 // it is printed...
-                .filter((t) -> t instanceof Deadline) // filtering using lambda.
-                .forEach(System.out::println);
+                // .filter((t) -> t instanceof Deadline) // filtering using lambda.
+                // .forEach(System.out::println);
     }
+
 }
