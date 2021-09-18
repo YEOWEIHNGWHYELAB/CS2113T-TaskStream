@@ -39,6 +39,13 @@ public class Main {
         }
     }
 
+    // Printing using Streams instead.
+    public static void printDataWithStreams(ArrayList<Task> tasks) {
+        System.out.println("Printing data using stream");
+        tasks.stream() // Convert data to stream.
+                .forEach(System.out::println); // Terminal method that consume all the things done in stream earlier. And do note that there is no () at the println since you are passing it to the forEach()...
+    }
+
     public static void printDeadlines(ArrayList<Task> tasksData) {
         for (Task t : tasksData) {
             if (t instanceof Deadline) {
