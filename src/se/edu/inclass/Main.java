@@ -79,7 +79,7 @@ public class Main {
 
     public static void printDeadlineUsingStream(ArrayList<Task> tasks) {
         System.out.println("Printing deadlines using streams");
-        tasks.stream()
+        tasks.parallelStream() // instead of Stream() to use multi-threading.
                 // You have the parameter which you are checking if
                 // it is instance of the deadline. Only if it is then
                 // it is printed...
