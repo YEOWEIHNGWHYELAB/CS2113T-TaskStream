@@ -16,10 +16,13 @@ public class Main {
         DataManager dm = new DataManager("./data/data.txt");
         ArrayList<Task> tasksData = dm.loadData();
 
-        System.out.println("Printing deadlines");
-        printDeadlines(tasksData);
+        // System.out.println("Printing deadlines");
+        // printDeadlines(tasksData);
 
-        System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
+        // System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
+        // printData(tasksData);
+
+        // printDataWithStreams(tasksData); // Using streams to print the data...
 
         printDeadlineUsingStream(tasksData);
         System.out.println("Total number of deadlines (using stream): " +
