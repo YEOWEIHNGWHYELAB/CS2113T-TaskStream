@@ -21,6 +21,9 @@ public class Main {
 
         System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
 
+        printDeadlineUsingStream(tasksData);
+        System.out.println("Total number of deadlines (using stream): " +
+                countDeadlineUsingStream(tasksData));
     }
 
     private static int countDeadlines(ArrayList<Task> tasksData) {
@@ -55,10 +58,29 @@ public class Main {
     }
 
     public static void printDeadlines(ArrayList<Task> tasksData) {
+        /** // This is similar to the printDeadlineUsingStream method.
+        ArrayList<Task> deadlines = new ArrayList<>();
+        for (Task t : tasksData) {
+            if (t instanceof Deadline) {
+                deadlines.add(t);
+                System.out.println(t);
+            }
+        }*/
+
         for (Task t : tasksData) {
             if (t instanceof Deadline) {
                 System.out.println(t);
             }
         }
+    }
+
+    public static void printDeadlineUsingStream(ArrayList<Task> tasks) {
+        System.out.println("Printing deadlines using streams");
+        tasks.stream()
+                // You have the parameter which you are checking if
+                // it is instance of the deadline. Only if it is then
+                // it is printed...
+                .filter((t) -> t instanceof Deadline) // filtering using lambda.
+                .forEach(System.out::println);
     }
 }
