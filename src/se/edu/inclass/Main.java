@@ -33,6 +33,13 @@ public class Main {
         return count;
     }
 
+    private static int countDeadlineUsingStream(ArrayList<Task> tasks) {
+        int count = (int) tasks.stream()
+                .filter((t) -> t instanceof Deadline)
+                .count(); // And aggregat that just count... And it returns long so must typecast...
+        return count;
+    }
+
     public static void printData(ArrayList<Task> tasksData) {
         System.out.println("Printing data by looping");
         for (Task t : tasksData) {
